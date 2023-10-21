@@ -32,9 +32,9 @@ void Delete_Begin(LinkedList &H, bool &flag);
 void Display(LinkedList H);
 float Average(LinkedList H);
 PNode create_node(int x);
-void Delete_WithValue(LinkedList &H, int k, bool &flag);
-void sort_up(LinkedList &H);
-void sort_down(LinkedList &H);
+void Delete_WithValue(LinkedList &H, int k);
+void sort_up(LinkedList &H, bool &flag);
+void sort_down(LinkedList &H, bool &flag);
 void InSert_End(LinkedList &H, int value);
 int List_Length(LinkedList H);
 void menu();
@@ -46,7 +46,7 @@ int main()
 {
     LinkedList H;
     char answer = '\0';
-    char select = '\0';
+    int select = 0;
 
     init(H);
     while(answer != 'n')
@@ -54,10 +54,10 @@ int main()
         system("cls");
         menu();
         printf("\nNhap lua chon cua ban: ");
-        select = getche();
+        scanf("%d", &select);
         switch(select)
         {
-            case '1':
+            case 1:
             {
                 if(isEmpty(H))
                 {
@@ -69,7 +69,7 @@ int main()
                 }
                 break;
             }
-            case '2':
+            case 2:
             {
                 int value = 0;
                 printf("\nNhap gia tri muon them: ");
@@ -78,7 +78,7 @@ int main()
                 printf("\nAdd list successfully");
                 break;
             }
-            case '3':
+            case 3:
             {
                 int value = 0;
                 printf("\nNhap gia tri muon them: ");
@@ -88,7 +88,7 @@ int main()
                 break;
                 break;
             }
-            case '4':
+            case 4:
             {
             	int value1 = 0, value2 = 0;
                 PNode P = NULL;
@@ -97,10 +97,15 @@ int main()
                 printf("Nhap gia tri muon them vao sau %d: ", value1);
                 scanf("%d", &value2);
                 P = Search_Node(H, value1);
+                if(isEmpty(H))
+                {
+                    Insert_After(H, P, value2);
+                    printf("\n List is empty.Value %d is added to the list", value2);
+                }
                 if(P != NULL)
                 {
                     Insert_After(H, P, value2);
-                    printf("\nAdd list successfully");
+                    printf("\nAdd %d after %d successfully", value2, value1);
                 }
                 else
                 {
@@ -109,7 +114,7 @@ int main()
                 break;
                 
             }
-            case '5':
+            case 5:
             {
                 int value1 = 0, value2 = 0;
                 PNode P = NULL;
@@ -117,11 +122,17 @@ int main()
                 scanf("%d", &value1);
                 printf("Nhap gia tri muon them vao truoc %d: ", value1);
                 scanf("%d", &value2);
+                if(isEmpty(H))
+                {
+                    Insert_Before(H, P, value2);
+                    printf("\n List is empty.Value %d is added to the list", value2);
+                }
+                
                 P = Search_Node(H, value1);
                 if(P != NULL)
                 {
                     Insert_Before(H, P, value2);
-                    printf("\nAdd list successfully");
+                    printf("\nAdd %d before %d successfully", value2, value1);
                 }
                 else
                 {
@@ -129,7 +140,7 @@ int main()
                 }
                 break;
             }
-            case '6':
+            case 6:
             {
                 bool flag = 0;
                 Delete_Begin(H, flag);
@@ -143,49 +154,70 @@ int main()
                 }
                 break;
             }
-            case '7':
+            case 7:
             {
                 int value = 0;
                 bool flag = 0;
+                PNode node = NULL;
                 printf("\nNhap vao gia tri muon xoa: ");
                 scanf("%d", &value);
-                Delete_WithValue(H, value, flag);
-                if(flag)
+                node = Search_Node(H, value);
+                if(node != NULL)
                 {
+                    Delete_WithValue(H, value);
                     printf("\nDelete list successfully");
                 }
+            
                 else
                 {
-                    printf("\nDelete not successful");
+                    printf("\nNot finding %d in list", value);
                 }
                 break;
             }
-            case '8':
+            case 8:
             {
                 printf("\nList hien tai: ");
                 Display(H);
                 break;
             }
-            case '9':
+            case 9:
             {
                 float avg = 0;
-                avg = Average(H);
-                printf("\nAverage of list is: %.2f", avg);
+                if(!isEmpty(H))
+                {
+                    avg = Average(H);
+                    printf("\nAverage of list is: %.2f", avg);
+                }
+                else
+                {
+                    printf("\nList is empty");
+                }
+                
                 break;
             }
-            case '10':
+            case 10:
             {
-                sort_up(H);
-                printf("\nSort up list successfully");
+                bool flag = 0;
+                sort_up(H, flag);
+                if(flag)
+                {
+                    printf("\nSort up list successfully");
+                }
+                
                 break;
             }
-            case '11':
+            case 11:
             {
-                sort_down(H);
-                printf("\nSort down list successfully");
+                bool flag = 0;
+                sort_down(H, flag);
+                if(flag)
+                {
+                    printf("\nSort down list successfully");
+                }
+                
                 break;
             }
-            case '12':
+            case 12:
             {
                 int value = 0;
                 PNode node = NULL;
@@ -202,14 +234,14 @@ int main()
                 }
                 break;
             }
-            case '13':
+            case 13:
             {
                 int length = 0;
                 length = List_Length(H);
                 printf("\nLength of list is %d", length);
                 break;
             }
-            case '14':
+            case 14:
             {
                 printf("\nSee you again");
                 return 0;
@@ -362,19 +394,11 @@ void Delete_Begin(LinkedList &H, bool &flag)
 }
 
 
-void display(LinkedList H)
-{
-    PNode P = H;
-    while(P != NULL)
-    {
-        printf("%d ", P->data);
-        P = P->next;
-    }
-}
 
-void Delete_WithValue(LinkedList &H, int k, bool &flag)
+
+void Delete_WithValue(LinkedList &H, int k)
 {
-    flag = 0;
+    
 	if (isEmpty(H))
     {
         printf("\nEmpty list!");
@@ -411,8 +435,9 @@ void Delete_WithValue(LinkedList &H, int k, bool &flag)
 	            current = current->next;
 	        }
 	    }
+       
 	}
-    flag = 1;
+    
     
 }
 
@@ -473,12 +498,13 @@ int List_Length(LinkedList H)
         length++;
         P = P->next;
     }
-    int length;
+    return length;
 }
-void sort_up(LinkedList &H)
+void sort_up(LinkedList &H, bool &flag)
 {
      if (isEmpty(H)) {
         printf("\nEmpty list!");
+        flag = 0;
         return;
     }
 
@@ -504,11 +530,13 @@ void sort_up(LinkedList &H)
 
         current = current->next;
     }
+    flag = 1;
 }
 
-void sort_up(LinkedList &H)
+void sort_down(LinkedList &H, bool &flag)
 {
     if (isEmpty(H)) {
+        flag = 0;
         printf("\nEmpty list!");
         return;
     }
@@ -522,7 +550,7 @@ void sort_up(LinkedList &H)
         // Tìm phần tử có giá trị nhỏ nhất trong phần còn lại của danh sách.
         LinkedList temp = current->next;
         while (temp != NULL) {
-            if (temp->data < max->data) {
+            if (temp->data > max->data) {
                 max = temp;
             }
             temp = temp->next;
@@ -535,6 +563,7 @@ void sort_up(LinkedList &H)
 
         current = current->next;
     }
+    flag = 1;
 }
 
 
