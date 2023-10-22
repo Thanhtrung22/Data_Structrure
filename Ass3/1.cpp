@@ -93,7 +93,7 @@ int main()
             	int value1 = 0, value2 = 0;
                 PNode P = NULL;
                 
-                printf("Nhap gia tri muon them vao sau: ");
+                printf("Nhap gia tri muon them vao: ");
                 scanf("%d", &value2);
                 
                 if(isEmpty(H))
@@ -125,7 +125,7 @@ int main()
                 int value1 = 0, value2 = 0;
                 PNode P = NULL;
                 
-                printf("Nhap gia tri muon them vao truoc: ");
+                printf("Nhap gia tri muon them vao: ");
                 scanf("%d", &value2);
                 if(isEmpty(H))
                 {

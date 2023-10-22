@@ -35,13 +35,14 @@ void Insert_Before(LinkedList &H, PNode node,Student person);
 PNode Search_Student(LinkedList H, int id_search);
 void Delete_Student(LinkedList &H, PNode node);
 float Point_Average_All_Student(LinkedList H);
-void Sort_up(LinkedList &H);
+void sort_up(LinkedList &H, bool &flag);
 PNode creat_node(Student person);
 void display_list(LinkedList H);
 void enter_data(LinkedList &H);
 void menu();
 void enter_one_person(Student *person, LinkedList H);
 void Insert_End(LinkedList &H, Student person);
+void edit_student(LinkedList &H, int id_edit);
 /******************************************************************************
 * Code
 ******************************************************************************/
@@ -105,7 +106,7 @@ int main()
                 if(isEmpty(H))
                 {
                     Insert_Before(H, P, person);
-                    printf("\n List is empty.Student %s is added to the list", person.name.c_str());
+                    printf("\nList is empty.Student %s is added to the list", person.name.c_str());
                 }
                 else
                 {
@@ -137,7 +138,7 @@ int main()
                 if(isEmpty(H))
                 {
                     Insert_After(H, P, person);
-                    printf("\n List is empty.Student %s is added to the list", person.name.c_str());
+                    printf("\nList is empty.Student %s is added to the list", person.name.c_str());
                 }
                 else
                 {
@@ -228,13 +229,30 @@ int main()
             }
             case 10:
             {
-                
-                
+                bool flag = 0;
+                sort_up(H, flag);
+                if(flag)
+                {
+                    printf("\nSort up list successfully");
+                }
                 break;
             }
             case 11:
             {
+                if(isEmpty(H))
+                {
+                    printf("\nEmpty list");
+                }
+                else
+                {
+                    int id_edit = 0;
+                    printf("Nhap id sinh vien can sua: ");
+                    scanf("%d", &id_edit);
+                    edit_student(H, id_edit);
+                    break;
+                }
                 
+                 
                 break;
             }
             case 12:
@@ -255,6 +273,8 @@ int main()
         answer = getche();
 
     }
+    printf("\nSee you again!");
+    return 0;
 }
 
 /******************************************************************************
@@ -262,7 +282,7 @@ int main()
 ******************************************************************************/
 void menu()
 {
-    printf("\n\t\t STUDENT MANAGERMENT WITH LINKED LIST\n\n");
+    printf("\n\t\t STUDENT MANAGEMENT WITH LINKED LIST\n\n");
     printf("----------------------------------------------------------------\n");
     printf("1.Check list empty\n");
     printf("2.Enter information list of students: \n");
@@ -273,7 +293,7 @@ void menu()
     printf("7.Delete student\n");
     printf("8.Search information of student\n");
     printf("9.Point average of all students in list\n");
-    printf("10.Sort up list via point average\n");
+    printf("10.Sort up list via id\n");
     printf("11.Edit information of student\n");
     printf("12.Exit\n");
 }
@@ -500,3 +520,99 @@ void enter_data(LinkedList &H)
     }
 }
 
+void sort_up(LinkedList &H, bool &flag)
+{
+    if (isEmpty(H))
+    {
+        printf("List is empty");
+        flag = 0;
+        return;
+    }
+
+    PNode current, min;
+    Student temp;
+
+    current = H;
+    while (current->next != NULL)
+    {
+        min = current;
+        PNode tempNode = current->next;
+
+        while (tempNode != NULL)
+        {
+            if (tempNode->data.id < min->data.id)
+            {
+                min = tempNode;
+            }
+            tempNode = tempNode->next;
+        }
+
+        // Hoán đổi dữ liệu giữa current và min
+        if (current != min)
+        {
+            temp = current->data;
+            current->data = min->data;
+            min->data = temp;
+        }
+        current = current->next;
+    }
+    flag = 1;
+}
+
+void edit_student(LinkedList &H, int id_edit)
+{
+    
+    PNode node = Search_Student(H, id_edit);
+    if(node != NULL)
+    {
+        char answer = '\0';
+            char sel = 0;
+            while(answer != 'k')
+            {
+                printf("\n\tEDIT MENU");
+                printf("\n1.Edit name");
+                printf("\n2.Edit Class");
+                printf("\n3.Edit Point_Average");
+                printf("\nNhap lua chon cua ban: ");
+                sel = getche();
+                switch(sel)
+                {
+                    case '1':
+                    {
+                        printf("\nNhap ten moi: ");
+                        cin.ignore();
+                        getline(cin, node->data.name);
+                        break;
+                    }
+                    case '2':
+                    {
+                        printf("\nNhap ten lop: ");
+                        cin.ignore();
+                        getline(cin, node->data.Class);
+                        break;
+
+                    }
+                    case '3':
+                    {
+                        printf("\nNhap diem: ");
+                        scanf("%f", &node->data.point_average);
+                        break;
+                    }
+                    default: printf("Ban da nhap sai lua chon"); break;
+
+                }
+               printf("Ban co muon tiep tuc sua?(c/k)");
+               fflush(stdin);
+               answer = getche();
+            }
+    }
+    else
+    {
+        printf("Not finding student has id %d", id_edit);
+    }
+}
+
+
+/******************************************************************************
+* End of File
+******************************************************************************/
