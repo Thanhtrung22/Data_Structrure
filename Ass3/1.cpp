@@ -92,25 +92,31 @@ int main()
             {
             	int value1 = 0, value2 = 0;
                 PNode P = NULL;
-                printf("\nNhap gia tri ban dau: ");
-                scanf("%d", &value1);
-                printf("Nhap gia tri muon them vao sau %d: ", value1);
+                
+                printf("Nhap gia tri muon them vao sau: ");
                 scanf("%d", &value2);
-                P = Search_Node(H, value1);
+                
                 if(isEmpty(H))
                 {
                     Insert_After(H, P, value2);
-                    printf("\n List is empty.Value %d is added to the list", value2);
-                }
-                if(P != NULL)
-                {
-                    Insert_After(H, P, value2);
-                    printf("\nAdd %d after %d successfully", value2, value1);
+                    printf("\nList is empty.Value %d is added to the list", value2);
                 }
                 else
                 {
-                    printf("\nNot find  %d in list", value1);
+                    printf("\nNhap gia tri trong list: ");
+                    scanf("%d", &value1);
+                    P = Search_Node(H, value1);
+                    if(P != NULL)
+                    {
+                        Insert_After(H, P, value2);
+                        printf("\nAdd %d after %d successfully", value2, value1);
+                    }
+                    else
+                    {
+                        printf("\nNot find  %d in list", value1);
+                    }
                 }
+                
                 break;
                 
             }
@@ -118,26 +124,31 @@ int main()
             {
                 int value1 = 0, value2 = 0;
                 PNode P = NULL;
-                printf("\nNhap gia tri ban dau: ");
-                scanf("%d", &value1);
-                printf("Nhap gia tri muon them vao truoc %d: ", value1);
+                
+                printf("Nhap gia tri muon them vao truoc: ");
                 scanf("%d", &value2);
                 if(isEmpty(H))
                 {
                     Insert_Before(H, P, value2);
-                    printf("\n List is empty.Value %d is added to the list", value2);
-                }
-                
-                P = Search_Node(H, value1);
-                if(P != NULL)
-                {
-                    Insert_Before(H, P, value2);
-                    printf("\nAdd %d before %d successfully", value2, value1);
+                    printf("\nList is empty.Value %d is added to the list", value2);
                 }
                 else
                 {
-                    printf("\nNot find  %d in list", value1);
+                    printf("\nNhap gia tri trong list: ");
+                    scanf("%d", &value1);
+                    P = Search_Node(H, value1);
+                    if(P != NULL)
+                    {
+                        Insert_Before(H, P, value2);
+                        printf("\nAdd %d before %d successfully", value2, value1);
+                    }
+                    else
+                    {
+                        printf("\nNot find  %d in list", value1);
+                    }
                 }
+                
+                
                 break;
             }
             case 6:
@@ -159,19 +170,27 @@ int main()
                 int value = 0;
                 bool flag = 0;
                 PNode node = NULL;
-                printf("\nNhap vao gia tri muon xoa: ");
-                scanf("%d", &value);
-                node = Search_Node(H, value);
-                if(node != NULL)
+                if(isEmpty(H))
                 {
-                    Delete_WithValue(H, value);
-                    printf("\nDelete list successfully");
+                    printf("\nEmpty list");
                 }
-            
                 else
                 {
-                    printf("\nNot finding %d in list", value);
+                    printf("\nNhap vao gia tri muon xoa: ");
+                    scanf("%d", &value);
+                    node = Search_Node(H, value);
+                    if(node != NULL)
+                    {
+                        Delete_WithValue(H, value);
+                        printf("\nDelete list successfully");
+                    }
+                
+                    else
+                    {
+                        printf("\nNot finding %d in list", value);
+                    }
                 }
+                
                 break;
             }
             case 8:
@@ -221,17 +240,25 @@ int main()
             {
                 int value = 0;
                 PNode node = NULL;
-                printf("\nNhap gia tri muon tim: ");
-                scanf("%d", &value);
-                node = Search_Node(H, value);
-                if(node != NULL)
+                if(isEmpty(H))
                 {
-                    printf("Linked list have %d in list", value);
+                    printf("\nEmpty list");
                 }
                 else
                 {
-                    printf("\nNot finding %d in list", value);
+                    printf("\nNhap gia tri muon tim: ");
+                    scanf("%d", &value);
+                    node = Search_Node(H, value);
+                    if(node != NULL)
+                    {
+                        printf("Linked list have %d in list", value);
+                    }
+                    else
+                    {
+                        printf("\nNot finding %d in list", value);
+                    }
                 }
+                
                 break;
             }
             case 13:
