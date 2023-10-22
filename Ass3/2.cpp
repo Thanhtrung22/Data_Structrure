@@ -41,6 +41,7 @@ void display_list(LinkedList H);
 void enter_data(LinkedList &H);
 void menu();
 void enter_one_person(Student *person, LinkedList H);
+void Insert_End(LinkedList &H, Student person);
 /******************************************************************************
 * Code
 ******************************************************************************/
@@ -99,25 +100,29 @@ int main()
                 PNode P = NULL;
                 printf("\nNhap thong tin sinh vien muon them:\n");
                 enter_one_person(&person, H);
-                printf("\nNhap id sinh vien trong list: ");
-                scanf("%d", &id_person);
+                
                 
                 if(isEmpty(H))
                 {
                     Insert_Before(H, P, person);
                     printf("\n List is empty.Student %s is added to the list", person.name.c_str());
                 }
-                
-                P = Search_Student(H, person.id);
-                if(P != NULL)
-                {
-                    Insert_Before(H, P, person);
-                    printf("\nAdd student before id %d successfully", id_person);
-                }
                 else
                 {
-                    printf("\nNot find student has id %d in list", id_person);
+                    printf("\nNhap id sinh vien trong list: ");
+                    scanf("%d", &id_person);
+                    P = Search_Student(H, id_person);
+                    if(P != NULL)
+                    {
+                        Insert_Before(H, P, person);
+                        printf("\nAdd student before id %d successfully", id_person);
+                    }
+                    else
+                    {
+                        printf("\nNot find student has id %d in list", id_person);
+                    }
                 }
+                
                 break;
             }
             case 6:
@@ -127,62 +132,83 @@ int main()
                 PNode P = NULL;
                 printf("\nNhap thong tin sinh vien muon them:\n");
                 enter_one_person(&person, H);
-                printf("\nNhap id sinh vien trong list: ");
-                scanf("%d", &id_person);
+                
                 
                 if(isEmpty(H))
                 {
                     Insert_After(H, P, person);
                     printf("\n List is empty.Student %s is added to the list", person.name.c_str());
                 }
-                
-                P = Search_Student(H, person.id);
-                if(P != NULL)
-                {
-                    Insert_After(H, P, person);
-                    printf("\nAdd student after id %d successfully", id_person);
-                }
                 else
                 {
-                    printf("\nNot find student has id %d in list", id_person);
+                    printf("\nNhap id sinh vien trong list: ");
+                    scanf("%d", &id_person);
+                    P = Search_Student(H, id_person);
+                    if(P != NULL)
+                    {
+                        Insert_After(H, P, person);
+                        printf("\nAdd student after id %d successfully", id_person);
+                    }
+                    else
+                    {
+                        printf("\nNot find student has id %d in list", id_person);
+                    }
                 }
+                
                 break;
             }
             case 7:
             {
-                int id_person = 0;
-                PNode node = NULL;
-                printf("\nNhap vao id muon xoa: ");
-                scanf("%d", &id_person);
-                node = Search_Student(H, id_person);
-                if(node != NULL)
+                if(isEmpty(H))
                 {
-                    Delete_Student(H, node);
-                    printf("\nDelete student successfully");
+                    printf("\nEmpty list");
                 }
-            
                 else
                 {
-                    printf("\nNot finding %d in list", id_person);
+                    int id_person = 0;
+                    PNode node = NULL;
+                    printf("\nNhap vao id muon xoa: ");
+                    scanf("%d", &id_person);
+                    node = Search_Student(H, id_person);
+                    if(node != NULL)
+                    {
+                        Delete_Student(H, node);
+                        printf("\nDelete student successfully");
+                    }
+                
+                    else
+                    {
+                        printf("\nNot finding %d in list", id_person);
+                    }
                 }
+                
                 break;
             }
             case 8:
             {
-                int id_person = 0;
-                PNode node = NULL;
-                printf("\nNhap vao id muon xoa: ");
-                scanf("%d", &id_person);
-                node = Search_Student(H, id_person);
-                if(node != NULL)
+                if(isEmpty(H))
                 {
-                    printf("Information of student has id %d: \n", id_person);
-                    display_list(node);
+                    printf("\nEmpty list");
                 }
                 else
                 {
-                    printf("\nNot finding %d in list", id_person);
+                    int id_person = 0;
+                    PNode node = NULL;
+                    printf("\nNhap vao id muon tim: ");
+                    scanf("%d", &id_person);
+                    node = Search_Student(H, id_person);
+                    if(node != NULL)
+                    {
+                        printf("Information of student has id %d: \n\n", id_person);
+                        printf("%-20s %-10s %-10s %-8s\n", "Ho Ten", "Ma so", "Lop", "Diem TB");
+                        printf("%-20s %-10d %-10s %-8.2f\n", node->data.name.c_str(), node->data.id, node->data.Class.c_str(), node->data.point_average);
+                    }
+                    else
+                    {
+                        printf("\nNot finding %d in list", id_person);
+                    }
                 }
+                
                 break;
             }
             case 9:
@@ -261,10 +287,10 @@ void enter_one_person(Student *person, LinkedList H)
         scanf("%d", &person->id);
         while(Search_Student(H, person->id) != NULL)
         {
-            printf("\nBan da nhap giong id voi sinh vien khac.Vui long nhap lai!");
+            printf("\nBan da nhap giong id voi sinh vien khac.Vui long nhap lai: ");
             scanf("%d", &person->id);
         }
-        printf("\nNhap lop: ");
+        printf("Nhap lop: ");
         cin.ignore();
         getline(cin, person->Class);
         printf("Nhap diem trung binh: ");
@@ -313,9 +339,29 @@ PNode Search_Student(LinkedList H, int id_search)
         {
             return node;
         }
+        node = node->next;
     }
     return NULL;
 }
+
+void Insert_End(LinkedList &H, Student person)
+{
+    PNode node = creat_node(person);
+    if(isEmpty(H))
+    {
+        H = node;
+    }
+    else
+    {
+        PNode temp = H;
+        while(temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = node;
+    }
+}
+
 
 void Insert_After(LinkedList &H, PNode node, Student person)
 {
@@ -377,11 +423,11 @@ void Delete_Student(LinkedList &H, PNode node)
         else
         {
             PNode temp = H;
-            while(temp->next != NULL)
+            while(temp->next != node)
             {
                 temp = temp->next;
             }
-            temp = node->next;
+            temp->next = node->next;
             delete node;
         }
     }
@@ -396,6 +442,7 @@ float Point_Average_All_Student(LinkedList H)
     {
         sum += node->data.point_average;
         count++;
+        node = node->next;
     }
     if(count > 0)
     {
@@ -413,10 +460,10 @@ void display_list(LinkedList H)
     }
     PNode node = H;
     int i = 1;
-    printf("%-5s %-20s %-10s %-8s %-8s\n", "STT", "Ho Ten", "Ma so", "Lop", "Diem TB");
+    printf("%-5s %-20s %-10s %-10s %-8s\n", "STT", "Ho Ten", "Ma so", "Lop", "Diem TB");
     while(node != NULL)
     {
-        printf("%-5d %-20s %-10s %-10s %-8.2f\n", i++, node->data.name.c_str(), node->data.id, node->data.Class, node->data.point_average);
+        printf("%-5d %-20s %-10d %-10s %-8.2f\n", i++, node->data.name.c_str(), node->data.id, node->data.Class.c_str(), node->data.point_average);
         node = node->next;
     }
 }
@@ -440,15 +487,15 @@ void enter_data(LinkedList &H)
         scanf("%d", &person.id);
         while(Search_Student(H, person.id) != NULL)
         {
-            printf("\nBan da nhap giong id voi sinh vien khac.Vui long nhap lai!");
+            printf("\nBan da nhap giong id voi sinh vien khac.Vui long nhap lai: ");
             scanf("%d", &person.id);
         }
-        printf("\nNhap lop: ");
+        printf("Nhap lop: ");
         cin.ignore();
         getline(cin, person.Class);
         printf("Nhap diem trung binh: ");
         scanf("%f", &person.point_average);
-        Insert_Begin(H, person);
+        Insert_End(H, person);
 
     }
 }
