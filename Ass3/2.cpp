@@ -268,7 +268,7 @@ int main()
                 break;
             }
         }
-        printf("\nDo you wanna continue?(y/n)");
+        printf("\nDo you wanna continue the program?(y/n)");
         fflush(stdin);
         answer = getche();
 
@@ -567,6 +567,10 @@ void edit_student(LinkedList &H, int id_edit)
     {
         char answer = '\0';
             char sel = 0;
+
+            printf("Information of student has id %d: \n\n", id_edit);
+            printf("%-20s %-10s %-10s %-8s\n", "Ho Ten", "Ma so", "Lop", "Diem TB");
+            printf("%-20s %-10d %-10s %-8.2f\n\n", node->data.name.c_str(), node->data.id, node->data.Class.c_str(), node->data.point_average);
             while(answer != 'k')
             {
                 printf("\n\tEDIT MENU");
@@ -598,17 +602,17 @@ void edit_student(LinkedList &H, int id_edit)
                         scanf("%f", &node->data.point_average);
                         break;
                     }
-                    default: printf("Ban da nhap sai lua chon"); break;
+                    default: printf("\nBan da nhap sai lua chon"); break;
 
                 }
-               printf("Ban co muon tiep tuc sua?(c/k)");
+               printf("\nBan co muon tiep tuc sua?(c/k)");
                fflush(stdin);
                answer = getche();
             }
     }
     else
     {
-        printf("Not finding student has id %d", id_edit);
+        printf("\nNot finding student has id %d", id_edit);
     }
 }
 
