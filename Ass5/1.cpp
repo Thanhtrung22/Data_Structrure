@@ -593,7 +593,7 @@ void sort_down(PDoubleLinkedList &list, bool &flag)
 }
 void menu()
 {
-    printf("\n\t\t LINKED LIST SINGLE PROGRAM\n\n");
+    printf("\n\t\t DOUBLE LINKED LIST  PROGRAM\n\n");
     printf("----------------------------------------------------------------\n");
     printf("1.Check list empty\n");
     printf("2.Add value at begin\n");
