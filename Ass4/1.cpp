@@ -24,7 +24,7 @@ int main()
         scanf("%d", &n);
         if(n < 0)
         {
-            printf("Vui long nhap lai n\n");
+            printf("Vui long nhap lai n voi n > 0\n");
         }
     }while(n < 0);
     
@@ -38,7 +38,7 @@ int main()
         scanf("%d", &n);
         if(n < 0)
         {
-            printf("Vui long nhap lai n\n");
+            printf("Vui long nhap lai n voi n > 0\n");
         }
     }while(n < 0);
     sum = Sum_KhuDeQuy(n);
